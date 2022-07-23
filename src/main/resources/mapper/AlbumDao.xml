@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.socialcontactapp.dao.AlbumDao">
+
+    <resultMap id="BaseResultMap" type="com.example.socialcontactapp.entity.Album">
+        <!--@Table album-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+        <result property="picture" column="picture" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, userId, picture
+        from socialContactApp.album
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, userId, picture
+        from socialContactApp.album
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, userId, picture
+        from socialContactApp.album
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="picture != null and picture != ''">
+                and picture = #{picture}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into socialContactApp.album(userId, picture)
+        values (#{userid}, #{picture})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update socialContactApp.album
+        <set>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+            <if test="picture != null and picture != ''">
+                picture = #{picture},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from socialContactApp.album where id = #{id}
+    </delete>
+
+</mapper>

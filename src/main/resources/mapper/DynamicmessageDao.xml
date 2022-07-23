@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.socialcontactapp.dao.DynamicmessageDao">
+
+    <resultMap id="BaseResultMap" type="com.example.socialcontactapp.entity.Dynamicmessage">
+        <!--@Table dynamicMessage-->
+        <result property="messageid" column="messageId" jdbcType="INTEGER"/>
+        <result property="userid" column="userId" jdbcType="BIGINT"/>
+        <result property="datatime" column="datatime" jdbcType="TIMESTAMP"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="nums" column="nums" jdbcType="INTEGER"/>
+        <result property="topic" column="topic" jdbcType="VARCHAR"/>
+        <result property="pictures" column="pictures" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="comment" column="comment_count" jdbcType="INTEGER"/>
+        <result property="enroll" column="enroll_count" jdbcType="INTEGER"/>
+        <result property="love" column="love_count" jdbcType="INTEGER"/>
+
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select messageId,
+               userId,
+               datatime,
+               label,
+               address,
+               nums,
+               topic,
+               pictures,
+               content,
+               comment_count,
+               enroll_count,
+               love_count
+        from socialContactApp.dynamicMessage
+        where messageId = #{messageid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select messageId,
+               userId,
+               datatime,
+               label,
+               address,
+               nums,
+               topic,
+               pictures,
+               content,
+               comment_count,
+               enroll_count,
+               love_count
+        from socialContactApp.dynamicMessage
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        messageId, userId, datatime, label, address, nums, topic, pictures,
+        content,comment_count,enroll_count,love_count
+        from socialContactApp.dynamicMessage
+        <where>
+            <if test="messageid != null">
+                and messageId = #{messageid}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="datatime != null">
+                and datatime = #{datatime}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="nums != null and nums != ''">
+                and nums = #{nums}
+            </if>
+            <if test="topic != null and topic != ''">
+                and topic = #{topic}
+            </if>
+            <if test="pictures != null and pictures != ''">
+                and pictures = #{pictures}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="comment_count != null and comment_count != ''">
+                and comment_count = #{comment_count}
+            </if>
+            <if test="enroll_count != null and enroll_count != ''">
+                and enroll_count = #{enroll_count}
+            </if>
+            <if test="love_count != null and love_count != ''">
+                and love_count = #{love_count}
+            </if>
+        </where>
+    </select>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update socialContactApp.dynamicMessage
+        <set>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+            <if test="datatime != null">
+                datatime = #{datatime},
+            </if>
+            <if test="label != null and label != ''">
+                label = #{label},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="nums != null and nums != ''">
+                nums = #{nums},
+            </if>
+            <if test="topic != null and topic != ''">
+                topic = #{topic},
+            </if>
+            <if test="pictures != null and pictures != ''">
+                pictures = #{pictures},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+        </set>
+        where messageId = #{messageid}
+    </update>
+
+
+</mapper>

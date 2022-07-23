@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.socialcontactapp.dao.UserdetailsDao">
+
+    <resultMap id="BaseResultMap" type="com.example.socialcontactapp.entity.Userdetails">
+        <!--@Table userDetails-->
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickName" jdbcType="VARCHAR"/>
+        <result property="height" column="height" jdbcType="OTHER"/>
+        <result property="weight" column="weight" jdbcType="OTHER"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="work" column="work" jdbcType="VARCHAR"/>
+        <result property="word" column="word" jdbcType="VARCHAR"/>
+        <result property="wechatid" column="wechatId" jdbcType="VARCHAR"/>
+        <result property="vip" column="vip" jdbcType="OTHER"/>
+        <result property="invitationcode" column="InvitationCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          userId, sex, nickName, height, weight, city, work, word, wechatId, vip, InvitationCode
+        from socialContactApp.userDetails
+        where userId = #{userid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          userId, sex, nickName, height, weight, city, work, word, wechatId, vip, InvitationCode
+        from socialContactApp.userDetails
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          userId, sex, nickName, height, weight, city, work, word, wechatId, vip, InvitationCode
+        from socialContactApp.userDetails
+        <where>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickName = #{nickname}
+            </if>
+            <if test="height != null">
+                and height = #{height}
+            </if>
+            <if test="weight != null">
+                and weight = #{weight}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="work != null and work != ''">
+                and work = #{work}
+            </if>
+            <if test="word != null and word != ''">
+                and word = #{word}
+            </if>
+            <if test="wechatid != null and wechatid != ''">
+                and wechatId = #{wechatid}
+            </if>
+            <if test="vip != null">
+                and vip = #{vip}
+            </if>
+            <if test="invitationcode != null and invitationcode != ''">
+                and InvitationCode = #{invitationcode}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" >
+        insert into socialContactApp.userDetails(userId,sex, nickName, height, weight, city, work, word, wechatId, vip, InvitationCode)
+        values (#{userid},#{sex}, #{nickname}, #{height}, #{weight}, #{city}, #{work}, #{word}, #{wechatid}, #{vip}, #{invitationcode})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update socialContactApp.userDetails
+        <set>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickName = #{nickname},
+            </if>
+            <if test="height != null">
+                height = #{height},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="work != null and work != ''">
+                work = #{work},
+            </if>
+            <if test="word != null and word != ''">
+                word = #{word},
+            </if>
+            <if test="wechatid != null and wechatid != ''">
+                wechatId = #{wechatid},
+            </if>
+            <if test="vip != null">
+                vip = #{vip},
+            </if>
+            <if test="invitationcode != null and invitationcode != ''">
+                InvitationCode = #{invitationcode},
+            </if>
+        </set>
+        where userId = #{userid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from socialContactApp.userDetails where userId = #{userid}
+    </delete>
+
+</mapper>

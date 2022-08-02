@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.socialcontactapp.dao.WalletDao">
+
+    <resultMap id="BaseResultMap" type="com.example.socialcontactapp.entity.Wallet">
+        <!--@Table wallet-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+        <result property="reward" column="reward" jdbcType="FLOAT"/>
+        <result property="recharge" column="recharge" jdbcType="FLOAT"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, userId, reward, recharge
+        from socialContactApp.wallet
+        where userId = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, userId, reward, recharge
+        from socialContactApp.wallet
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, userId, reward, recharge
+        from socialContactApp.wallet
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="reward != null">
+                and reward = #{reward}
+            </if>
+            <if test="recharge != null">
+                and recharge = #{recharge}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into socialContactApp.wallet(userId, reward, recharge)
+        values (#{userid}, #{reward}, #{recharge})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update socialContactApp.wallet
+        <set>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+            <if test="reward != null">
+                reward = #{reward},
+            </if>
+            <if test="recharge != null">
+                recharge = #{recharge},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from socialContactApp.wallet where id = #{id}
+    </delete>
+
+</mapper>

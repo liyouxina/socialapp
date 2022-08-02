@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.socialcontactapp.dao.ComplaintDao">
+
+    <resultMap id="BaseResultMap" type="com.example.socialcontactapp.entity.Complaint">
+        <!--@Table complaint-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userid" column="userId" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="picture1" column="picture1" jdbcType="VARCHAR"/>
+        <result property="picture2" column="picture2" jdbcType="VARCHAR"/>
+        <result property="picture3" column="picture3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, userId, content, picture1, picture2, picture3
+        from socialContactApp.complaint
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, userId, content, picture1, picture2, picture3
+        from socialContactApp.complaint
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, userId, content, picture1, picture2, picture3
+        from socialContactApp.complaint
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userid != null">
+                and userId = #{userid}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="picture1 != null and picture1 != ''">
+                and picture1 = #{picture1}
+            </if>
+            <if test="picture2 != null and picture2 != ''">
+                and picture2 = #{picture2}
+            </if>
+            <if test="picture3 != null and picture3 != ''">
+                and picture3 = #{picture3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into socialContactApp.complaint(userId, content, picture1, picture2, picture3)
+        values (#{userid}, #{content}, #{picture1}, #{picture2}, #{picture3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update socialContactApp.complaint
+        <set>
+            <if test="userid != null">
+                userId = #{userid},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="picture1 != null and picture1 != ''">
+                picture1 = #{picture1},
+            </if>
+            <if test="picture2 != null and picture2 != ''">
+                picture2 = #{picture2},
+            </if>
+            <if test="picture3 != null and picture3 != ''">
+                picture3 = #{picture3},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from socialContactApp.complaint where id = #{id}
+    </delete>
+
+</mapper>
